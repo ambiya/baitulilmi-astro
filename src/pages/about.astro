@@ -1,0 +1,87 @@
+---
+import { getEntry, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { resolveSiteIdentity } from "../utils/site-identity";
+import { whatsappLink } from "../utils/site-config";
+
+const page = await getEntry("pages", "about");
+const { Content } = page ? await render(page) : { Content: null };
+const { siteTitle } = resolveSiteIdentity();
+
+const seo = {
+	title: `Tentang Kami - ${siteTitle}`,
+	description:
+		"Mengenal lebih dekat Baitul Ilmi, lembaga les privat Islam di Banda Aceh yang berdedikasi membangun generasi Rabbani berilmu dan berakhlak.",
+	canonical: `${Astro.url.origin}/about`,
+};
+---
+
+<Base
+	title={seo.title}
+	description={seo.description}
+	canonical={seo.canonical}
+>
+	<div class="about-page">
+		<div class="about-content">
+			<a href="/" class="back-link">
+				<i class="fas fa-arrow-left"></i>
+				Kembali ke Beranda
+			</a>
+
+			<div class="about-header">
+				<h1>{page?.data.title || "Tentang Baitul Ilmi"}</h1>
+				<p class="tagline">Menghidupkan Ilmu, Menjaga Akhlak</p>
+			</div>
+
+			{Content ? (
+				<article class="prose" style="margin-bottom: 48px;">
+					<Content />
+				</article>
+			) : (
+				<section class="about-section">
+					<h2>Siapa Kami</h2>
+					<p>
+						Baitul Ilmi adalah lembaga bimbingan belajar privat keislaman yang berlokasi di Banda Aceh.
+						Kami didirikan dengan tujuan mulia untuk membantu masyarakat, khususnya generasi muda,
+						dalam memahami dan mendalami ilmu-ilmu Islam secara sistematis dan terstruktur.
+					</p>
+				</section>
+			)}
+
+			<section class="about-section">
+				<h2>Nilai-Nilai Kami</h2>
+				<div class="value-grid">
+					<div class="value-card">
+						<i class="fas fa-book"></i>
+						<h3>Ilmu</h3>
+						<p>Menghayati bahwa menuntut ilmu adalah kewajiban setiap Muslim</p>
+					</div>
+					<div class="value-card">
+						<i class="fas fa-heart"></i>
+						<h3>Ikhlas</h3>
+						<p>Melakukan semua kebaikan dengan niat karena Allah</p>
+					</div>
+					<div class="value-card">
+						<i class="fas fa-users"></i>
+						<h3>Keharmonisan</h3>
+						<p>Membangun hubungan baik antara ustaz, murid, dan orang tua</p>
+					</div>
+				</div>
+			</section>
+
+			<div class="about-cta">
+				<h3>Siap Belajar Bersama Kami?</h3>
+				<p>Daftar sekarang dan raih manfaat pembelajaran Islam yang komprehensif</p>
+				<div class="about-nav">
+					<a href="/#pricing" class="btn-primary">Lihat Paket Harga</a>
+					<a
+						href={whatsappLink("Assalamu'alaikum, saya ingin bertanya tentang Baitul Ilmi")}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="btn-outline"
+					>Hubungi Kami</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Base>

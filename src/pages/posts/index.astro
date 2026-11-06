@@ -1,0 +1,92 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import taxonomiesData from "../../data/taxonomies.json";
+
+const allPosts = await getCollection("posts");
+const posts = allPosts.sort((a, b) => {
+	const dateA = a.data.publishedAt ? new Date(a.data.publishedAt).getTime() : 0;
+	const dateB = b.data.publishedAt ? new Date(b.data.publishedAt).getTime() : 0;
+	return dateB - dateA;
+});
+
+const tagTerms = (taxonomiesData.tag?.terms || []) as Array<{ slug: string; label: string }>;
+const tagMap = new Map(tagTerms.map((t) => [t.slug, t.label]));
+---
+
+<Base
+	title="Artikel & Kajian - Baitul Ilmi"
+	description="Kumpulan artikel, panduan belajar Al-Qur'an, tajwid, dan kajian Islam dari Baitul Ilmi."
+>
+	<div class="posts-section">
+		<div class="container">
+			<div class="section-header">
+				<h2>Artikel & Kajian</h2>
+				<p>Kumpulan materi dan artikel islami bermanfaat untuk menambah wawasan.</p>
+			</div>
+
+			{
+				posts.length === 0 ? (
+					<p style="text-align: center; color: var(--text-light); margin-top: 40px;">
+						Belum ada artikel yang dipublikasikan.
+					</p>
+				) : (
+					<div class="posts-grid">
+						{posts.map((post) => (
+							<article class="post-card">
+								{post.data.featured_image && (
+									<div>
+										<img
+											src={post.data.featured_image.src}
+											alt={post.data.featured_image.alt || post.data.title}
+											class="post-card-img"
+											loading="lazy"
+										/>
+									</div>
+								)}
+								<div class="post-card-body">
+									<a href={`/posts/${post.id}`}>
+										<h3 class="post-card-title">
+											{post.data.title}
+										</h3>
+									</a>
+									{post.data.excerpt && (
+										<p class="post-card-excerpt">
+											{post.data.excerpt}
+										</p>
+									)}
+									{post.data.tag && post.data.tag.length > 0 && (
+										<div class="post-card-tags">
+											{post.data.tag.map((tSlug) => (
+												<a href={`/tag/${tSlug}`} class="post-tag">
+													#{tagMap.get(tSlug) || tSlug}
+												</a>
+											))}
+										</div>
+									)}
+									<div class="post-card-meta">
+										{post.data.publishedAt && (
+											<div class="post-card-date">
+												<i class="far fa-calendar-alt"></i>
+												<time datetime={new Date(post.data.publishedAt).toISOString()}>
+													{new Date(post.data.publishedAt).toLocaleDateString("id-ID", {
+														year: "numeric",
+														month: "long",
+														day: "numeric",
+													})}
+												</time>
+											</div>
+										)}
+										<a href={`/posts/${post.id}`} class="post-card-read-more">
+											Baca artikel <i class="fas fa-arrow-right"></i>
+										</a>
+									</div>
+								</div>
+							</article>
+						))}
+					</div>
+				)
+			}
+		</div>
+	</div>
+</Base>

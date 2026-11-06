@@ -1,0 +1,52 @@
+[
+  {
+    "id": "paket-10x",
+    "name": "Paket 10x",
+    "price": "Rp1.000.000",
+    "per_session": "Rp100.000 / sesi",
+    "is_popular": false,
+    "features": "10 Pertemuan\nPrivat 1 Murid\nDurasi Fleksibel\nJadwal Bisa Disesuaikan\nKonsultasi Gratis",
+    "order": 1
+  },
+  {
+    "id": "paket-15x",
+    "name": "Paket 15x",
+    "price": "Rp1.250.000",
+    "discount": "Hemat ~17%",
+    "per_session": "~Rp83.333 / sesi",
+    "is_popular": true,
+    "badge_label": "Terlaris",
+    "features": "15 Pertemuan\nPrivat 1 Murid\nDurasi Fleksibel\nJadwal Bisa Disesuaikan\nKonsultasi Gratis",
+    "order": 2
+  },
+  {
+    "id": "paket-20x",
+    "name": "Paket 20x",
+    "price": "Rp1.400.000",
+    "discount": "Hemat ~30%",
+    "per_session": "Rp70.000 / sesi",
+    "is_popular": false,
+    "features": "20 Pertemuan\nPrivat 1 Murid\nDurasi Fleksibel\nJadwal Bisa Disesuaikan\nKonsultasi Gratis",
+    "order": 3
+  },
+  {
+    "id": "paket-25x",
+    "name": "Paket 25x",
+    "price": "Rp1.500.000",
+    "discount": "Hemat ~40%",
+    "per_session": "Rp60.000 / sesi",
+    "is_popular": false,
+    "features": "25 Pertemuan\nPrivat 1 Murid\nDurasi Fleksibel\nJadwal Bisa Disesuaikan\nKonsultasi Gratis",
+    "order": 4
+  },
+  {
+    "id": "paket-30x",
+    "name": "Paket 30x",
+    "price": "Rp1.650.000",
+    "discount": "Hemat ~45%",
+    "per_session": "Rp55.000 / sesi",
+    "is_popular": false,
+    "features": "30 Pertemuan\nPrivat 1 Murid\nDurasi Fleksibel\nJadwal Bisa Disesuaikan\nKonsultasi Gratis",
+    "order": 5
+  }
+]

@@ -1,0 +1,306 @@
+---
+import Search from "../components/Search.astro";
+import { resolveSiteIdentity } from "../utils/site-identity";
+import { whatsappLink, SOCIAL_LINKS } from "../utils/site-config";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "../styles/theme.css";
+
+interface Props {
+	title: string;
+	pageTitle?: string | null;
+	description?: string | null;
+	keywords?: string | null;
+	image?: string | null;
+	canonical?: string | null;
+	robots?: string | null;
+	hideFloatingWa?: boolean;
+}
+
+const {
+	title,
+	pageTitle,
+	description,
+	keywords = "les privat islam, baitul ilmi, banda aceh, bimbingan belajar islam, tahsin, tajwid, bahasa arab, ngaji, privat ngaji, kajian kitab",
+	image,
+	canonical,
+	robots = "index, follow",
+	hideFloatingWa = false,
+} = Astro.props;
+
+const { siteTitle, siteTagline, siteLogo } = resolveSiteIdentity();
+
+const displayTitle = pageTitle ?? title;
+const titleIncludesSiteName = displayTitle
+	.toLowerCase()
+	.includes(siteTitle.toLowerCase());
+const fullTitle = titleIncludesSiteName ? displayTitle : `${displayTitle} — ${siteTitle}`;
+const pageDescription = description ?? siteTagline;
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.url).href;
+const ogImage = new URL(image ?? "/assets/img/hero_teaching.webp", Astro.url).href;
+
+interface NavItem {
+	label: string;
+	url: string;
+	target?: string;
+	isCta?: boolean;
+}
+
+const navItems: NavItem[] = [
+	{ label: "Beranda", url: "/#home" },
+	{ label: "Tentang Kami", url: "/about" },
+	{ label: "Pengajar", url: "/#teachers" },
+	{ label: "Materi", url: "/#materials" },
+	{ label: "Harga", url: "/#pricing" },
+	{ label: "Hubungi Kami", url: "/contact", isCta: true },
+];
+---
+
+<!doctype html>
+<html lang="id">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{fullTitle}</title>
+		{pageDescription && <meta name="description" content={pageDescription} />}
+		{keywords && <meta name="keywords" content={keywords} />}
+		<meta name="author" content={siteTitle} />
+		<meta name="robots" content={robots} />
+		<link rel="canonical" href={canonicalUrl} />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:title" content={fullTitle} />
+		{pageDescription && <meta property="og:description" content={pageDescription} />}
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:site_name" content={siteTitle} />
+
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={canonicalUrl} />
+		<meta name="twitter:title" content={fullTitle} />
+		{pageDescription && <meta name="twitter:description" content={pageDescription} />}
+		<meta name="twitter:image" content={ogImage} />
+
+		<!-- Favicons & Icons -->
+		<link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<header>
+			<nav class="container">
+				<a href="/" class="logo" aria-label="Baitul Ilmi Beranda">
+					<img
+						src={siteLogo?.url || "/assets/img/logo.svg"}
+						alt={siteLogo?.alt || `${siteTitle} Logo`}
+						width="40"
+						height="40"
+					/>
+					<span>{siteTitle}</span>
+				</a>
+				<ul class="nav-links">
+					{
+						navItems
+							.filter((item) => !item.isCta)
+							.map((item) => (
+								<li>
+									<a
+										href={item.url}
+										target={item.target}
+										rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+									>
+										{item.label}
+									</a>
+								</li>
+							))
+					}
+					<li class="nav-search">
+						<Search placeholder="Cari..." />
+					</li>
+					{
+						navItems
+							.filter((item) => item.isCta)
+							.map((item) => (
+								<li>
+									<a
+										href={item.url}
+										class="btn-primary"
+										target={item.target}
+										rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+									>
+										{item.label}
+									</a>
+								</li>
+							))
+					}
+				</ul>
+				<button class="mobile-menu-toggle" aria-label="Menu" aria-expanded="false">
+					<i class="fas fa-bars"></i>
+				</button>
+			</nav>
+			<div class="mobile-menu-overlay" aria-hidden="true"></div>
+		</header>
+
+		<main>
+			<slot />
+		</main>
+
+		<footer id="contact">
+			<div class="container footer-content">
+				<div class="footer-brand">
+					<img src="/assets/img/logo.svg" alt="Logo" class="footer-logo" width="60" height="60" />
+					<h3>{siteTitle}</h3>
+					<p>{siteTagline}</p>
+				</div>
+				<div class="footer-links">
+					<h4>Navigasi</h4>
+					<ul>
+						<li><a href="/about">Tentang Kami</a></li>
+						<li><a href="/#teachers">Pengajar</a></li>
+						<li><a href="/#materials">Materi</a></li>
+						<li><a href="/#pricing">Harga</a></li>
+						<li><a href="/posts">Artikel</a></li>
+					</ul>
+				</div>
+				<div class="footer-links">
+					<h4>Legal</h4>
+					<ul>
+						<li><a href="/privacy-policy">Kebijakan Privasi</a></li>
+						<li><a href="/terms">Syarat & Ketentuan</a></li>
+					</ul>
+				</div>
+				<div class="footer-social">
+					<h4>Media Sosial</h4>
+					<div class="social-icons">
+						<a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+							<i class="fab fa-facebook-f"></i>
+						</a>
+						<a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+							<i class="fab fa-instagram"></i>
+						</a>
+						<a href={SOCIAL_LINKS.tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+							<i class="fab fa-tiktok"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<p>&copy; {new Date().getFullYear()} {siteTitle}. Hak Cipta Dilindungi.</p>
+			</div>
+		</footer>
+
+		{
+			!hideFloatingWa && (
+				<a
+					href={whatsappLink()}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="floating-whatsapp"
+					aria-label="Chat via WhatsApp"
+					title="Konsultasi Gratis"
+				>
+					<i class="fab fa-whatsapp"></i>
+					<span>Konsultasi Gratis</span>
+				</a>
+			)
+		}
+
+		<script is:inline>
+			document.addEventListener("DOMContentLoaded", () => {
+				// Mobile menu toggle
+				const menuToggle = document.querySelector(".mobile-menu-toggle");
+				const navLinks = document.querySelector(".nav-links");
+				const overlay = document.querySelector(".mobile-menu-overlay");
+
+				const setMenuOpen = (open) => {
+					if (!menuToggle || !navLinks) return;
+					navLinks.classList.toggle("active", open);
+					if (overlay) overlay.classList.toggle("active", open);
+					document.body.classList.toggle("menu-open", open);
+					menuToggle.setAttribute("aria-expanded", String(open));
+					const icon = menuToggle.querySelector("i");
+					if (icon) {
+						icon.classList.toggle("fa-bars", !open);
+						icon.classList.toggle("fa-times", open);
+					}
+				};
+
+				if (menuToggle && navLinks) {
+					menuToggle.addEventListener("click", () => {
+						setMenuOpen(!navLinks.classList.contains("active"));
+					});
+
+					if (overlay) {
+						overlay.addEventListener("click", () => setMenuOpen(false));
+					}
+
+					navLinks.querySelectorAll("a").forEach((link) => {
+						link.addEventListener("click", () => setMenuOpen(false));
+					});
+
+					document.addEventListener("click", (e) => {
+						if (
+							navLinks.classList.contains("active") &&
+							!navLinks.contains(e.target) &&
+							!menuToggle.contains(e.target) &&
+							(!overlay || !overlay.contains(e.target))
+						) {
+							setMenuOpen(false);
+						}
+					});
+
+					document.addEventListener("keydown", (e) => {
+						if (e.key === "Escape" && navLinks.classList.contains("active")) {
+							setMenuOpen(false);
+							menuToggle.focus();
+						}
+					});
+				}
+
+				// FAQ Accordion
+				const faqQuestions = document.querySelectorAll(".faq-question");
+				if (faqQuestions.length > 0) {
+					faqQuestions.forEach((question) => {
+						question.addEventListener("click", () => {
+							const isExpanded = question.getAttribute("aria-expanded") === "true";
+
+							faqQuestions.forEach((q) => {
+								q.setAttribute("aria-expanded", "false");
+								if (q.nextElementSibling) {
+									q.nextElementSibling.style.maxHeight = null;
+								}
+							});
+
+							if (!isExpanded) {
+								question.setAttribute("aria-expanded", "true");
+								const answer = question.nextElementSibling;
+								if (answer) {
+									answer.style.maxHeight = answer.scrollHeight + "px";
+								}
+							}
+						});
+					});
+				}
+
+				// Add scroll header shadow
+				const header = document.querySelector("header");
+				if (header) {
+					window.addEventListener("scroll", () => {
+						if (window.scrollY > 10) {
+							header.style.boxShadow = "var(--shadow-md)";
+						} else {
+							header.style.boxShadow = "var(--shadow-sm)";
+						}
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

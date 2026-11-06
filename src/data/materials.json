@@ -1,0 +1,44 @@
+[
+  {
+    "id": "dasar-bahasa-arab",
+    "title": "Dasar Bahasa Arab",
+    "icon": "fas fa-language",
+    "description": "Pembelajaran kaidah dasar bahasa Arab (Nahwu & Sharaf) untuk pemula.",
+    "order": 1
+  },
+  {
+    "id": "kitab-jawi",
+    "title": "Kitab Jawi",
+    "icon": "fas fa-book-open",
+    "description": "Pembelajaran membaca dan memahami literatur Islam klasik berbahasa Melayu/Jawi.",
+    "order": 2
+  },
+  {
+    "id": "al-quran-tajwid",
+    "title": "Al-Qur’an & Tajwid",
+    "icon": "fas fa-quran",
+    "description": "Bimbingan membaca Al-Qur’an dengan tartil disertai penguasaan ilmu tajwid.",
+    "order": 3
+  },
+  {
+    "id": "kajian-kitab",
+    "title": "Kajian Kitab",
+    "icon": "fas fa-scroll",
+    "description": "Pendalaman kitab-kitab turats (Fiqih, Aqidah, Akhlaq) dasar dan lanjutan.",
+    "order": 4
+  },
+  {
+    "id": "amaliah-ibadah",
+    "title": "Amaliah Ibadah",
+    "icon": "fas fa-praying-hands",
+    "description": "Panduan tata cara ibadah praktis sesuai dengan tuntunan syariat Islam.",
+    "order": 5
+  },
+  {
+    "id": "sejarah-islam",
+    "title": "Sejarah Islam",
+    "icon": "fas fa-history",
+    "description": "Mempelajari Sirah Nabawiyah dan sejarah peradaban Islam sebagai ibrah.",
+    "order": 6
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "rahmat",
+    "name": "Bapak Rahmat",
+    "role": "Wali Murid (Banda Aceh)",
+    "quote": "Alhamdulillah, sejak anak saya les di sini, bacaan Al-Qur'an-nya jauh lebih tartil dan tajwidnya benar. Ustadznya sangat sabar dan metodenya mudah dipahami.",
+    "order": 1
+  },
+  {
+    "id": "fadil-hidayat",
+    "name": "Fadil Hidayat",
+    "role": "Mahasiswa / Peserta Privat",
+    "quote": "Saya mengikuti kelas bahasa Arab dasar. Sangat direkomendasikan karena penyampaian materi Nahwu & Sharaf dibuat sederhana dan aplikatif. Terasa ada progress setiap pekannya.",
+    "order": 2
+  },
+  {
+    "id": "aisyah",
+    "name": "Ibu Aisyah",
+    "role": "Peserta Kajian Fiqih",
+    "quote": "Mengkaji kitab bersama asatidz di Baitul Ilmi sangat membuka wawasan. Sanad keilmuannya jelas dan suasana belajarnya sangat nyaman. Terima kasih ustadz.",
+    "order": 3
+  }
+]

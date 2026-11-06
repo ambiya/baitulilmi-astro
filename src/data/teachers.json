@@ -1,0 +1,35 @@
+[
+  {
+    "id": "khairul-yasir",
+    "name": "Khairul Yasir, S.H., M.Ag",
+    "photo": {
+      "src": "/assets/img/yasir.webp",
+      "alt": "Khairul Yasir, S.H., M.Ag"
+    },
+    "education": "Ma'had Mudi Mesra Samalanga\nSarjana Universitas Islam Samalanga Indonesia\nS2 Universitas Islam Ar-Raniry",
+    "teaching_experience": "Guru Dayah Mudi Mesra Samalanga\nGuru Dayah Darul Hikmah\nGuru Dayah Markaz Al-Islah Al-Aziziyah\nGuru Dayah Misbahul Rasyad Al-Aziziyah",
+    "order": 1
+  },
+  {
+    "id": "ikram-murdani",
+    "name": "Ikram Murdani, S.H.",
+    "photo": {
+      "src": "/assets/img/ikram.webp",
+      "alt": "Ikram Murdani, S.H."
+    },
+    "education": "Sarjana Universitas Islam Samalanga Indonesia",
+    "teaching_experience": "Guru Dayah Mudi Mesra\nGuru Dayah Darul Hikmah\nGuru Dayah Darut Thalibin Al-Aziziyah",
+    "order": 2
+  },
+  {
+    "id": "munawir-iqbal",
+    "name": "Munawir Iqbal, S.H., M.H.",
+    "photo": {
+      "src": "/assets/img/munawir.webp",
+      "alt": "Munawir Iqbal, S.H., M.H."
+    },
+    "education": "Sarjana Universitas Islam Samalanga Indonesia\nUIN Mojokerto",
+    "teaching_experience": "Mengajar di Mudi Mesra\nMengajar di Dayah Darul Hikmah",
+    "order": 3
+  }
+]

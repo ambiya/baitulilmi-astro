@@ -1,0 +1,27 @@
+{
+  "teachers": {
+    "heading": "Pengajar Kami",
+    "subheading": "Dibimbing oleh asatidz yang berpengalaman dan berkompeten."
+  },
+  "materials": {
+    "heading": "Materi Pembelajaran",
+    "subheading": "Kurikulum disusun secara sistematis untuk berbagai tingkatan."
+  },
+  "testimonials": {
+    "heading": "Testimoni",
+    "subheading": "Apa kata mereka yang telah belajar bersama Baitul Ilmi?"
+  },
+  "faq": {
+    "heading": "Pertanyaan Umum (FAQ)",
+    "subheading": "Beberapa pertanyaan yang sering diajukan terkait layanan kami."
+  },
+  "pricing": {
+    "heading": "Paket Harga",
+    "subheading": "Pilihan paket belajar fleksibel sesuai kebutuhan Anda.",
+    "notes": "Satu sesi berlaku untuk murid dengan kelas/tingkat yang sama.\nTambahan +Rp300.000 untuk 1 murid tambahan (Total 2 murid).\nTambahan +Rp500.000 untuk 2 murid tambahan (Total 3 murid).\nMaksimal 3 murid per sesi."
+  },
+  "posts": {
+    "heading": "Artikel & Kajian Terbaru",
+    "subheading": "Ikuti tulisan, panduan, dan kajian keislaman dari asatidz kami."
+  }
+}

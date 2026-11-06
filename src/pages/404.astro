@@ -1,0 +1,38 @@
+---
+import Base from "../layouts/Base.astro";
+import { whatsappLink } from "../utils/site-config";
+
+const pageTitle = "Halaman Tidak Ditemukan - Baitul Ilmi";
+const pageDescription = "Maaf, halaman yang Anda cari tidak tersedia atau telah dipindahkan.";
+---
+
+<Base title={pageTitle} description={pageDescription} robots="noindex, follow">
+	<div class="error-page">
+		<div class="error-content">
+			<div class="error-icon">
+				<i class="fas fa-compass"></i>
+			</div>
+			<div class="error-number">404</div>
+			<h1 class="error-title">Halaman Tidak Ditemukan</h1>
+			<p class="error-description">
+				Maaf, halaman yang Anda cari tidak tersedia atau telah dipindahkan.
+				Mungkin URL yang Anda masukkan salah atau halaman sudah dihapus.
+			</p>
+			<div class="error-actions">
+				<a href="/" class="btn-primary">
+					<i class="fas fa-home"></i>
+					Kembali ke Beranda
+				</a>
+				<a
+					href={whatsappLink("Assalamu'alaikum, saya butuh bantuan")}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="btn-secondary"
+				>
+					<i class="fas fa-headset"></i>
+					Hubungi Kami
+				</a>
+			</div>
+		</div>
+	</div>
+</Base>

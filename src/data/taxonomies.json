@@ -1,0 +1,48 @@
+{
+  "category": {
+    "label": "Kategori",
+    "terms": [
+      {
+        "slug": "al-quran",
+        "label": "Al-Qur'an & Tajwid"
+      },
+      {
+        "slug": "bahasa-arab",
+        "label": "Bahasa Arab"
+      },
+      {
+        "slug": "kajian-kitab",
+        "label": "Kajian Kitab"
+      },
+      {
+        "slug": "amaliah-ibadah",
+        "label": "Amaliah Ibadah"
+      },
+      {
+        "slug": "sejarah-islam",
+        "label": "Sejarah Islam"
+      }
+    ]
+  },
+  "tag": {
+    "label": "Tagar",
+    "terms": [
+      {
+        "slug": "les-privat",
+        "label": "Les Privat"
+      },
+      {
+        "slug": "banda-aceh",
+        "label": "Banda Aceh"
+      },
+      {
+        "slug": "tajwid",
+        "label": "Tajwid"
+      },
+      {
+        "slug": "nahwu-sharaf",
+        "label": "Nahwu & Sharaf"
+      }
+    ]
+  }
+}

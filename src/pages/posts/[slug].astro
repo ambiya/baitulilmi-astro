@@ -1,0 +1,107 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { resolveSiteIdentity } from "../../utils/site-identity";
+import taxonomiesData from "../../data/taxonomies.json";
+
+export async function getStaticPaths() {
+	const posts = await getCollection("posts");
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { siteTitle } = resolveSiteIdentity();
+
+const pageTitle = `${post.data.title} - ${siteTitle}`;
+const description = post.data.excerpt || undefined;
+const ogImage = post.data.featured_image?.src || undefined;
+
+const categoryTerms = (taxonomiesData.category?.terms || []) as Array<{ slug: string; label: string }>;
+const categoryMap = new Map(categoryTerms.map((c) => [c.slug, c.label]));
+
+const tagTerms = (taxonomiesData.tag?.terms || []) as Array<{ slug: string; label: string }>;
+const tagMap = new Map(tagTerms.map((t) => [t.slug, t.label]));
+---
+
+<Base
+	title={pageTitle}
+	description={description}
+	image={ogImage}
+>
+	<div class="about-page">
+		<div class="about-content" style="max-width: 800px;">
+			<a href="/posts" class="back-link">
+				<i class="fas fa-arrow-left"></i>
+				Kembali ke Artikel
+			</a>
+
+			<article class="prose">
+				{
+					post.data.featured_image && (
+						<div class="post-featured-image">
+							<img
+								src={post.data.featured_image.src}
+								alt={post.data.featured_image.alt || post.data.title}
+								loading="eager"
+							/>
+						</div>
+					)
+				}
+
+				<h1 style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 16px;">
+					{post.data.title}
+				</h1>
+
+				<div style="display: flex; gap: 16px; align-items: center; color: var(--text-light); font-size: 0.9rem; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid rgba(0,0,0,0.06); flex-wrap: wrap;">
+					{
+						post.data.publishedAt && (
+							<div style="display: flex; align-items: center; gap: 6px;">
+								<i class="far fa-calendar-alt"></i>
+								<time datetime={new Date(post.data.publishedAt).toISOString()}>
+									{new Date(post.data.publishedAt).toLocaleDateString("id-ID", {
+										year: "numeric",
+										month: "long",
+										day: "numeric",
+									})}
+								</time>
+							</div>
+						)
+					}
+					{
+						post.data.category && post.data.category.length > 0 && (
+							<div style="display: flex; gap: 8px;">
+								<i class="far fa-folder" style="margin-top: 2px;"></i>
+								{post.data.category.map((cSlug) => (
+									<a href={`/category/${cSlug}`} style="color: var(--secondary-color); font-weight: 500;">
+										{categoryMap.get(cSlug) || cSlug}
+									</a>
+								))}
+							</div>
+						)
+					}
+				</div>
+
+				<Content />
+
+				{
+					post.data.tag && post.data.tag.length > 0 && (
+						<div class="post-detail-tags">
+							<span class="tags-label">Tags:</span>
+							<div class="tags-list">
+								{post.data.tag.map((tSlug) => (
+									<a href={`/tag/${tSlug}`} class="post-tag">
+										#{tagMap.get(tSlug) || tSlug}
+									</a>
+								))}
+							</div>
+						</div>
+					)
+				}
+			</article>
+		</div>
+	</div>
+</Base>

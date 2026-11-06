@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { resolveSiteIdentity } from "../utils/site-identity";
+
+export async function getStaticPaths() {
+	const pages = await getCollection("pages");
+	return pages
+		.filter((p) => p.id !== "about" && p.id !== "contact")
+		.map((page) => ({
+			params: { slug: page.id },
+			props: { page },
+		}));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const { siteTitle } = resolveSiteIdentity();
+
+const pageTitle = `${page.data.title} - ${siteTitle}`;
+---
+
+<Base title={pageTitle}>
+	<div class="about-page">
+		<div class="about-content">
+			<a href="/" class="back-link">
+				<i class="fas fa-arrow-left"></i>
+				Kembali ke Beranda
+			</a>
+
+			<article class="prose">
+				<h1 style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 24px;">
+					{page.data.title}
+				</h1>
+
+				<Content />
+			</article>
+		</div>
+	</div>
+</Base>

@@ -1,16 +1,365 @@
 ---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { resolveSiteIdentity } from "../utils/site-identity";
+import { CONTACT, whatsappLink } from "../utils/site-config";
+
+import teachers from "../data/teachers.json";
+import materials from "../data/materials.json";
+import testimonials from "../data/testimonials.json";
+import faqs from "../data/faqs.json";
+import packages from "../data/packages.json";
+import sectionsData from "../data/sections.json";
+
+const allPosts = await getCollection("posts");
+const posts = allPosts
+	.sort((a, b) => {
+		const dateA = a.data.publishedAt ? new Date(a.data.publishedAt).getTime() : 0;
+		const dateB = b.data.publishedAt ? new Date(b.data.publishedAt).getTime() : 0;
+		return dateB - dateA;
+	})
+	.slice(0, 3);
+
+const sec = sectionsData as Record<string, { heading: string; subheading: string; notes?: string }>;
+
+const noteIcons = [
+	"fas fa-info-circle",
+	"fas fa-user-plus",
+	"fas fa-users",
+	"fas fa-exclamation-triangle",
+];
+const pricingNotes: string[] = String(sec.pricing?.notes ?? "")
+	.split("\n")
+	.map((s) => s.trim())
+	.filter(Boolean);
+
+const { siteTitle } = resolveSiteIdentity();
+
+const pageTitle = `${siteTitle} - Les Privat Banda Aceh`;
+const pageDescription =
+	"Baitul Ilmi menyediakan les privat Islam modern di Banda Aceh. Tersedia materi Al-Qur'an, Tajwid, Bahasa Arab, dan Kajian Kitab bersama asatidz berpengalaman.";
+
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	mainEntity: faqs.map((faq) => ({
+		"@type": "Question",
+		name: faq.question,
+		acceptedAnswer: {
+			"@type": "Answer",
+			text: faq.answer,
+		},
+	})),
+};
+
+const organizationSchema = {
+	"@context": "https://schema.org",
+	"@type": "EducationalOrganization",
+	name: siteTitle,
+	description: pageDescription,
+	url: Astro.url.origin,
+	logo: `${Astro.url.origin}/assets/img/logo.svg`,
+	telephone: `+${CONTACT.whatsappNumber}`,
+	areaServed: {
+		"@type": "AdministrativeArea",
+		name: CONTACT.serviceArea,
+	},
+	address: {
+		"@type": "PostalAddress",
+		addressLocality: "Banda Aceh",
+		addressRegion: "Aceh",
+		addressCountry: "ID",
+	},
+};
+
+function getFeatureIcon(text: string): string {
+	const lower = text.toLowerCase();
+	if (lower.includes("pertemuan") || lower.includes("sesi")) return "fas fa-check";
+	if (lower.includes("murid")) return "fas fa-user";
+	if (lower.includes("durasi")) return "fas fa-clock";
+	if (lower.includes("jadwal")) return "fas fa-calendar-alt";
+	if (lower.includes("konsultasi")) return "fas fa-headset";
+	return "fas fa-check";
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base title={pageTitle} description={pageDescription}>
+	<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+	<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+
+	<section id="home" class="hero">
+		<div class="container hero-content">
+			<div class="hero-text">
+				<h1>
+					Membangun Generasi
+					<span class="highlight">Rabbani</span> Berilmu &
+					Berakhlak
+				</h1>
+				<p>
+					Baitul Ilmi menyediakan bimbingan belajar privat
+					keislaman yang komprehensif, mulai dari dasar
+					Al-Qur'an hingga kajian kitab kuning, dengan metode
+					yang modern dan personal.
+				</p>
+				<a href="#teachers" class="btn-primary">Lihat Pengajar</a>
+			</div>
+			<div class="hero-image">
+				<!-- Pixar style teaching illustration -->
+				<img
+					src="/assets/img/hero_teaching.webp"
+					alt="Baitul Ilmi Learning - Pixar Style"
+					class="hero-img-visual"
+					width="3640"
+					height="2040"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				/>
+			</div>
+		</div>
+	</section>
+
+	<section id="teachers" class="teachers">
+		<div class="container">
+			<div class="section-header">
+				<h2>{sec.teachers?.heading ?? "Pengajar Kami"}</h2>
+				<p>{sec.teachers?.subheading ?? "Dibimbing oleh asatidz yang berpengalaman dan berkompeten."}</p>
+			</div>
+			<div class="teacher-grid">
+				{teachers.map((teacher) => {
+					const educationList = teacher.education
+						? teacher.education.split("\n").map((s) => s.trim()).filter(Boolean)
+						: [];
+					const teachingList = teacher.teaching_experience
+						? teacher.teaching_experience.split("\n").map((s) => s.trim()).filter(Boolean)
+						: [];
+					return (
+						<div class="teacher-card">
+							<div class="teacher-img-wrapper">
+								{teacher.photo ? (
+									<img src={teacher.photo.src} alt={teacher.photo.alt || teacher.name} />
+								) : (
+									<div class="teacher-placeholder"><i class="fas fa-user"></i></div>
+								)}
+							</div>
+							<h3>{teacher.name}</h3>
+
+							<div class="teacher-details">
+								{educationList.length > 0 && (
+									<div class="detail-section">
+										<h4>Riwayat Pendidikan</h4>
+										<ul>
+											{educationList.map((item) => (
+												<li>{item}</li>
+											))}
+										</ul>
+									</div>
+								)}
+								{teachingList.length > 0 && (
+									<div class="detail-section">
+										<h4>Riwayat Mengajar</h4>
+										<ul>
+											{teachingList.map((item) => (
+												<li>{item}</li>
+											))}
+										</ul>
+									</div>
+								)}
+							</div>
+						</div>
+					);
+				})}
+			</div>
+		</div>
+	</section>
+
+	<section id="materials" class="materials">
+		<div class="container">
+			<div class="section-header">
+				<h2>{sec.materials?.heading ?? "Materi Pembelajaran"}</h2>
+				<p>{sec.materials?.subheading ?? "Kurikulum disusun secara sistematis untuk berbagai tingkatan."}</p>
+			</div>
+			<div class="materials-grid">
+				{materials.map((material) => (
+					<div class="material-card">
+						<div class="icon-box">
+							<i class={material.icon}></i>
+						</div>
+						<h3>{material.title}</h3>
+						<p>{material.description}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section id="testimonials" class="testimonials">
+		<div class="container">
+			<div class="section-header">
+				<h2>{sec.testimonials?.heading ?? "Testimoni"}</h2>
+				<p>{sec.testimonials?.subheading ?? "Apa kata mereka yang telah belajar bersama Baitul Ilmi?"}</p>
+			</div>
+			<div class="testimonial-grid">
+				{testimonials.map((testimonial) => (
+					<div class="testimonial-card">
+						<div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+						<p class="testimonial-text">
+							"{testimonial.quote}"
+						</p>
+						<div class="testimonial-author">
+							<div class="author-avatar"><i class="fas fa-user-circle"></i></div>
+							<div class="author-info">
+								<h4>{testimonial.name}</h4>
+								<span>{testimonial.role}</span>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section id="faq" class="faq">
+		<div class="container">
+			<div class="section-header">
+				<h2>{sec.faq?.heading ?? "Pertanyaan Umum (FAQ)"}</h2>
+				<p>{sec.faq?.subheading ?? "Beberapa pertanyaan yang sering diajukan terkait layanan kami."}</p>
+			</div>
+			<div class="faq-container">
+				{faqs.map((faq) => (
+					<div class="faq-item">
+						<button class="faq-question" aria-expanded="false">
+							<span>{faq.question}</span>
+							<i class="fas fa-chevron-down"></i>
+						</button>
+						<div class="faq-answer">
+							<div class="faq-answer-inner">
+								<p>{faq.answer}</p>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section id="pricing" class="pricing">
+		<div class="container">
+			<div class="section-header">
+				<h2>{sec.pricing?.heading ?? "Paket Harga"}</h2>
+				<p>{sec.pricing?.subheading ?? "Pilihan paket belajar fleksibel sesuai kebutuhan Anda."}</p>
+			</div>
+			<div class="pricing-grid">
+				{packages.map((pkg) => {
+					const featuresList = pkg.features
+						? pkg.features.split("\n").map((s) => s.trim()).filter(Boolean)
+						: [];
+					return (
+						<div class={`pricing-card ${pkg.is_popular ? "popular" : ""}`}>
+							{pkg.is_popular && (
+								<div class="badge">
+									{pkg.badge_label || "Terlaris"}
+								</div>
+							)}
+							<div class="package-name">{pkg.name}</div>
+							<div class="price">{pkg.price}</div>
+							{pkg.discount && (
+								<div class="discount">{pkg.discount}</div>
+							)}
+							<div class="per-session">{pkg.per_session}</div>
+							<ul class="features">
+								{featuresList.map((item) => (
+									<li>
+										<i class={getFeatureIcon(item)}></i> {item}
+									</li>
+								))}
+							</ul>
+							<a
+								href={whatsappLink(`Assalamu'alaikum, Saya tertarik dengan ${pkg.name}`)}
+								target="_blank"
+								rel="noopener noreferrer"
+								class={pkg.is_popular ? "btn-primary" : "btn-outline"}
+							>Pilih Paket</a>
+						</div>
+					);
+				})}
+			</div>
+
+			{pricingNotes.length > 0 && (
+				<div class="pricing-notes">
+					<h3>Catatan Penting</h3>
+					<ul>
+						{pricingNotes.map((note, i) => (
+							<li>
+								<i class={noteIcons[i % noteIcons.length]}></i> {note}
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
+		</div>
+	</section>
+
+	{
+		posts.length > 0 && (
+			<section class="posts-section" style="background-color: var(--bg-white); padding: 80px 0;">
+				<div class="container">
+					<div class="section-header">
+						<h2>{sec.posts?.heading ?? "Artikel & Kajian Terbaru"}</h2>
+						<p>{sec.posts?.subheading ?? "Ikuti tulisan, panduan, dan kajian keislaman dari asatidz kami."}</p>
+					</div>
+					<div class="posts-grid">
+						{posts.map((post) => (
+							<article class="post-card">
+								{post.data.featured_image && (
+									<div>
+										<img
+											src={post.data.featured_image.src}
+											alt={post.data.featured_image.alt || post.data.title}
+											class="post-card-img"
+											loading="lazy"
+										/>
+									</div>
+								)}
+								<div class="post-card-body">
+									<a href={`/posts/${post.id}`}>
+										<h3 class="post-card-title">
+											{post.data.title}
+										</h3>
+									</a>
+									{post.data.excerpt && (
+										<p class="post-card-excerpt">
+											{post.data.excerpt}
+										</p>
+									)}
+									<div class="post-card-meta">
+										{post.data.publishedAt && (
+											<div class="post-card-date">
+												<i class="far fa-calendar-alt"></i>
+												<time datetime={new Date(post.data.publishedAt).toISOString()}>
+													{new Date(post.data.publishedAt).toLocaleDateString("id-ID", {
+														year: "numeric",
+														month: "long",
+														day: "numeric",
+													})}
+												</time>
+											</div>
+										)}
+										<a href={`/posts/${post.id}`} class="post-card-read-more">
+											Baca artikel <i class="fas fa-arrow-right"></i>
+										</a>
+									</div>
+								</div>
+							</article>
+						))}
+					</div>
+					<div style="margin-top: 48px; text-align: center;">
+						<a href="/posts" class="btn-outline">
+							Lihat Semua Artikel <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+						</a>
+					</div>
+				</div>
+			</section>
+		)
+	}
+</Base>

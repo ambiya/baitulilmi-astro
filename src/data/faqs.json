@@ -1,0 +1,26 @@
+[
+  {
+    "id": "apakah-ustadz-bisa-datang-ke-rumah",
+    "question": "Apakah ustadz bisa datang ke rumah (home visit)?",
+    "answer": "Ya, untuk wilayah Banda Aceh dan sekitarnya, ustadz kami siap datang ke rumah siswa. Kami juga menyediakan opsi belajar di tempat yang disepakati bersama atau secara online.",
+    "order": 1
+  },
+  {
+    "id": "bagaimana-jika-siswa-berhalangan-hadir",
+    "question": "Bagaimana jika siswa berhalangan hadir saat jadwal les?",
+    "answer": "Jika siswa berhalangan hadir, harap memberitahu maksimal H-1 sebelum jadwal. Sesi tersebut tidak hangus dan dapat diganti (reschedule) ke hari lain sesuai kesepakatan.",
+    "order": 2
+  },
+  {
+    "id": "apakah-ada-tes-kemampuan-awal",
+    "question": "Apakah ada tes kemampuan awal sebelum mulai belajar?",
+    "answer": "Ya, sebelum pertemuan pertama, kami biasanya melakukan asesmen singkat untuk mengetahui tingkat kemampuan awal siswa agar materi yang diberikan bisa tepat sasaran.",
+    "order": 3
+  },
+  {
+    "id": "kapan-waktu-pembayaran-dilakukan",
+    "question": "Kapan waktu pembayaran dilakukan?",
+    "answer": "Pembayaran dapat dilakukan di awal setelah menyepakati paket yang dipilih. Kami menyediakan opsi transfer bank. Detailnya dapat dibicarakan saat sesi konsultasi via WhatsApp.",
+    "order": 4
+  }
+]

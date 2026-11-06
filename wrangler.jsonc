@@ -1,0 +1,8 @@
+{
+  "name": "baitulilmi",
+  "compatibility_date": "2026-11-01", // Update to the day you deploy
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

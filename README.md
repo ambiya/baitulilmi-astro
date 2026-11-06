@@ -1,43 +1,88 @@
-# Astro Starter Kit: Minimal
+# Baitul Ilmi - Website Les Privat Islam Banda Aceh
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Website resmi **Baitul Ilmi**, bimbingan belajar privat keislaman di Banda Aceh (Al-Qur'an, Tajwid, Bahasa Arab, Kajian Kitab Kuning, dan Amaliah Ibadah).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Situs ini dibangun menggunakan **Astro** (static site generation) dengan Astro Content Collections, Markdown untuk konten artikel & halaman statis, serta JSON untuk data terstruktur.
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## 🚀 Struktur Proyek
 
 ```text
 /
 ├── public/
+│   ├── assets/img/             # Gambar pengajar, ilustrasi hero, artikel, dan logo
+│   ├── favicon.ico
+│   └── favicon.svg
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/
+│   │   └── Search.astro        # Komponen live search interaktif tanpa ketergantungan eksternal
+│   ├── content/
+│   │   ├── pages/              # Halaman berbasis Markdown (about, contact, privacy-policy, terms)
+│   │   └── posts/              # Artikel & kajian Islam berbasis Markdown (.md)
+│   ├── content.config.ts       # Konfigurasi Astro Content Collections dengan Zod schema
+│   ├── data/
+│   │   ├── faqs.json           # Pertanyaan umum (FAQ)
+│   │   ├── materials.json      # Materi bimbingan belajar
+│   │   ├── packages.json       # Paket harga les privat
+│   │   ├── sections.json       # Judul & sub-judul seksi beranda
+│   │   ├── taxonomies.json     # Definisi kategori dan tag artikel
+│   │   ├── teachers.json       # Profil asatidz pengajar
+│   │   └── testimonials.json   # Testimoni wali murid & siswa
+│   ├── layouts/
+│   │   └── Base.astro          # Layout utama dengan SEO, OpenGraph, JSON-LD, navigasi, dan WhatsApp button
+│   ├── pages/
+│   │   ├── 404.astro           # Halaman error 404
+│   │   ├── [slug].astro        # Halaman statis generik (privacy-policy, terms)
+│   │   ├── about.astro         # Halaman Tentang Kami
+│   │   ├── category/[slug].astro # Arsip artikel per kategori
+│   │   ├── contact.astro       # Halaman Kontak & Lokasi
+│   │   ├── index.astro         # Beranda utama
+│   │   ├── posts/
+│   │   │   ├── [slug].astro    # Halaman detail artikel
+│   │   │   └── index.astro     # Halaman indeks semua artikel
+│   │   └── tag/[slug].astro    # Arsip artikel per tag
+│   ├── styles/
+│   │   └── theme.css           # Styling terpadu & responsif
+│   └── utils/
+│       ├── site-config.ts      # Kontak WhatsApp & tautan medsos terpusat
+│       └── site-identity.ts    # Identitas situs (nama, tagline, logo)
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🧞 Perintah
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Perintah | Deskripsi |
+| :--- | :--- |
+| `npm install` | Menginstal dependensi proyek |
+| `npm run dev` | Menjalankan server pengembangan (`http://localhost:4321`) |
+| `npm run build` | Melakukan build static site ke folder `./dist/` |
+| `npm run preview` | Meninjau hasil build lokal sebelum deploy |
+| `npm run typecheck` | Menjalankan pengecekan TypeScript & tipe Astro |
 
-Any static assets, like images, can be placed in the `public/` directory.
+## 📝 Mengelola Konten
 
-## 🧞 Commands
+### Menambah atau Mengubah Artikel
+Buat atau ubah file `.md` di folder `src/content/posts/`:
+```markdown
+---
+title: "Judul Artikel"
+excerpt: "Ringkasan singkat artikel"
+featured_image:
+  src: "/assets/img/nama-gambar.jpg"
+  alt: "Deskripsi gambar"
+publishedAt: "2026-11-05T08:00:00.000Z"
+category: ["al-quran"]
+tag: ["les-privat", "banda-aceh"]
+---
 
-All commands are run from the root of the project, from a terminal:
+Tulis isi artikel di sini menggunakan format Markdown standar.
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+### Mengubah Data Pengajar, Materi, FAQ, dan Harga
+Cukup sunting file JSON terkait di folder `src/data/`:
+- `teachers.json`
+- `materials.json`
+- `packages.json`
+- `faqs.json`
+- `testimonials.json`
